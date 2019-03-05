@@ -1,9 +1,8 @@
 const User = require('../models/user');
 
 module.exports = ()=>{
-  // let newUser = new User({Fname:'Mero',Lname:'Mero'
-  //   ,Email:'admin@website.com',username:'Admin',password:'Admin',Urole : "Admin"});
-  //   BuiltIn(newUser);
+    let newUser = new User({Fname:'Mero',username:'Admin',password:'Admin',Urole : "Admin"});
+    BuiltIn(newUser);
 }
 
 function BuiltIn(newItem){

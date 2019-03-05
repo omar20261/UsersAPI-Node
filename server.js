@@ -9,9 +9,10 @@ const app = express();
 const mongoose = require('mongoose');
 const config = require('./config/GVar');
 mongoose.Promise = global.Promise;
-mongoose.connect(config.db,{ }).connection;
+const mongo_url = process.env.mongo_url || config.db
+mongoose.connect(mongo_url,{ }).connection;
 /*------ mongoose OnConection  or OnError ------*/
-mongoose.connection.on('connected',()=>{ console.log('Connected to the Database '); });
+mongoose.connection.on('connected',()=>{ console.log('Connected to the Database '+mongo_url); });
 mongoose.connection.on('error',(err)=>{  console.log('Database Error : '+err);});
 /* ---------------- cors MW ----------------*/
    app.use(cors());

@@ -49,7 +49,7 @@ MySchema.pre('findOneAndUpdate',function (next,cb){
 });
 /*---------------------- (remove) --------------------------*/
 MySchema.post('remove',(doc)=>{
-  let ids = _.flatten(_.map(ImgNames,(v)=>doc[v]))
-  Files.DocDelete({_id:ids},(err,doc)=>{});
+  // let ids = _.flatten(_.map(ImgNames,(v)=>doc[v]))
+  // Files.DocDelete({_id:ids},(err,doc)=>{});
 });
 const User = module.exports = mongoose.model("User",MySchema);
