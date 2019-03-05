@@ -3,7 +3,7 @@ const sharedFun = require('../controller/sharedFun');
 const Bluebird = require("bluebird");
 const _ = require('lodash');
 const async = require('async');
-const sharp = require('../controller/sharp');
+// const sharp = require('../controller/sharp');
 
 /*---------- Imgs Schema------------*/
 const MySchema = mongoose.Schema({
