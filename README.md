@@ -4,7 +4,7 @@
 # ========= Docker setup =========
 
 ## prerequisite :
-  Docker
+  Docker  
   Docker-compose
 
 ## runing & building commends :
