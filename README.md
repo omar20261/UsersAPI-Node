@@ -1,5 +1,5 @@
 # Node Server
-  node server project
+  RESTFUL API Example + Authentication 
   
 # ========= Docker setup =========
 
