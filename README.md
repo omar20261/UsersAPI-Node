@@ -2,9 +2,11 @@
   node server project
   
 # ========= Docker setup =========
+
 ## prerequisite :
-Docker
-Docker-compose
+  Docker
+  Docker-compose
+
 ## runing & building commends :
   docker-compose up
   
