@@ -12,6 +12,9 @@
   
 note: you need to add sudo at the beginning of your os is linux or mac
 
+ ## navigate to http://localhost:3500
+
+
 # ========= manual setup =========
 
 ## prerequisite :
@@ -22,3 +25,5 @@ note: you need to add sudo at the beginning of your os is linux or mac
 ## runing commends :
   npm i   
   npm start
+  
+ ## navigate to http://localhost:3500
