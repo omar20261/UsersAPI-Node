@@ -3,16 +3,15 @@ const path = require('path');
 const bodyParser=require('body-parser');
 const cors = require('cors');
 const passport = require('passport');
+const config = require('./config/config');
 
 const app = express();
 /*---------------mongoose-----------------*/
 const mongoose = require('mongoose');
-const config = require('./config/GVar');
 mongoose.Promise = global.Promise;
-const mongo_url = process.env.mongo_url || config.db
-mongoose.connect(mongo_url,{ }).connection;
+mongoose.connect(config.db,{ }).connection;
 /*------ mongoose OnConection  or OnError ------*/
-mongoose.connection.on('connected',()=>{ console.log('Connected to the Database '+mongo_url); });
+mongoose.connection.on('connected',()=>{ console.log('Connected to the Database '+config.db); });
 mongoose.connection.on('error',(err)=>{  console.log('Database Error : '+err);});
 /* ---------------- cors MW ----------------*/
    app.use(cors());
@@ -35,6 +34,5 @@ app.get('*',(req,res) => { res.sendFile(path.join(__dirname,'public/index.html')
 /*-----------------------------*/
 process.on('uncaughtException',(e)=>{console.log('---uncaughtException----',e); });
 /*---------- app listening  ---------*/
-const port = process.env.PORT || '3500';
-app.listen(port,() => {  console.log('server started on port '+port); });
+app.listen(config.port,() => {  console.log('server started on port '+config.port); });
 /*-----------------------------------------------------------------------*/

@@ -9,7 +9,8 @@ services:
     links:
       - mongo
     environment:
-     - mongo_url=mongodb://mongo:27017/api
+     - PORT=3500
+     - MONGOLAB_URI=mongodb://mongo:27017/api
   mongo:
     container_name: mongo
     image: mongo

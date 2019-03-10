@@ -1,5 +1,5 @@
 const mongoose = require('mongoose'),types=mongoose.Schema.Types;
-const config = require('../config/GVar');
+const config = require('../config/config');
 const bcrypt = require('bcryptjs');
 const Files = require('./Files');
 /*-----  User Schema  --- */

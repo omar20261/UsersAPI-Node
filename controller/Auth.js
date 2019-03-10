@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const config = require('../config/GVar');
+const config = require('../config/config');
 const sharedFun = require('./sharedFun');
 const _ = require('lodash');
 /*====================(register)===================*/
