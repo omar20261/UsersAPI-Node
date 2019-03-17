@@ -1,6 +1,5 @@
 const mongoose = require('mongoose'),types=mongoose.Schema.Types;
 const Files = require('./Files');
-const sharedFun = require('../controller/sharedFun');
 const Bluebird = require("bluebird");
 const _ = require('lodash');
 
@@ -69,4 +68,4 @@ MySchema.post('remove',(doc)=>{
   Files.DocDelete({_id:ids},(err,doc)=>{});
 });
 /*======================================*/
-const ItemModule = module.exports = mongoose.model("item",MySchema);
+const ItemModule = module.exports = mongoose.model("customers",MySchema);

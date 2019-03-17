@@ -1,7 +1,8 @@
 const mongoose = require('mongoose'),types=mongoose.Schema.Types;
-const config = require('../config/config');
+const config = require('../config');
 const bcrypt = require('bcryptjs');
 const Files = require('./Files');
+const Bluebird = require("bluebird");
 /*-----  User Schema  --- */
 const MySchema = mongoose.Schema({
   Fname:{type:String,required:true},
@@ -35,6 +36,11 @@ MySchema.statics = {
       if(err){cb(true);};
       cb(null,isMatch);
     });
+  },DocDelete:(q,cb)=>{
+    User.find(q)
+      .then((modules) => Bluebird.each(modules, (module) => module.remove()))
+      .then((doc)=>cb(null,doc.length))
+      .catch(cb)
   }
 }
 /*==============( Multiple images With Names  )========================*/

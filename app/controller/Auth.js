@@ -1,27 +1,42 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const config = require('../config/config');
-const sharedFun = require('./sharedFun');
+const config = require('../config');
+const sharedFun = require('../services/sharedFun');
 const _ = require('lodash');
 /*====================(register)===================*/
-exports.register = (req,res)=>{let i = req.body;
-  let newUser = new User({Fname:i.Fname,Lname:i.Lname
-    ,Email:i.Email,password:i.password,Image:i.Image});
-      User.add(newUser,(err,user)=>{
+exports.register = (req,res)=>{
+  registerFun(req,(err,token,user)=>{
     if(sharedFun.ErrorHandler({res,req,err})){return;}
-    sendUserInfo(req,res,user,true);
- });
+    res.json({success:true,token:token,user:user});
+  });
 }
-/*====================(auth)===================*/
+/* --- (register function) --- */
+exports.registerFun = registerFun = (req,cb)=>{
+  let b = req.body;
+  let newUser = new User({Fname:b.Fname,Lname:b.Lname,Email:b.Email,username:b.username,password:b.password,Image:b.Image});
+  User.add(newUser,(err,user)=>{
+    if(err){return cb(err);}
+    sendUserInfo(user,(token)=>{ cb(null,token,user); });
+  });
+}
+/*====================( auth )===================*/
 exports.auth = (req,res) => {
-  const username =req.body.username,password =req.body.password;
-  User.findOne({username:username},(err,user)=>{
+  authFun(req,(err,token)=>{
     if(sharedFun.ErrorHandler({res,req,err})){return;}
-    if(!user){sharedFun.ErrorHandler({res,req,err:'Invalid Username or Password'});return;}
+    res.json({success:true,token:token});
+  });
+}
+/* =========== ( auth function ) =========== */
+exports.authFun = authFun = (req,cb)=>{
+  const username =req.body.username,password =req.body.password;
+  if(!username || !password){return cb('Invalid Username or Password');}
+  User.findOne({$and:[ {username:username} , {username:{$exists:true}} ]},(err,user)=>{
+    if(err){return cb(err);}
+    if(!user){return cb('Invalid Username or Password');}
     User.comparePassword(password,user.password,(err,isMatch) =>{
-      if(sharedFun.ErrorHandler({res,req,err})){return;}
-      if(isMatch){sendUserInfo(req,res,user,true);}
-      else{sharedFun.ErrorHandler({res,req,err:'Invalid Username or Password'});return;}
+      if(err){return cb(err);}
+      if(isMatch){ sendUserInfo(user,(token)=>{ cb(null,token);}); }
+      else{ cb('Invalid Username or Password');}
     });
   });
 }
@@ -36,7 +51,7 @@ exports.auth = (req,res) => {
       const doc = JSON.parse(data);
       User.GetOne({Email:doc.email},(err,user)=>{
         if(sharedFun.ErrorHandler({res,req,err})){return;}
-        if(user){sendUserInfo(req,res,user,true);return;}
+        if(user){return sendUserInfo(user,(token)=>{ res.json({success:true,token:token}); }); }
         else{createSocialUser(req,res,doc);}
       });
     });
@@ -48,7 +63,7 @@ exports.auth = (req,res) => {
     if(data.picture){newUser.SocialImg=data.picture; }
     newUser.save((err,user)=>{
       if(sharedFun.ErrorHandler({res,req,err})){return;}
-      sendUserInfo(req,res,user,true);
+      sendUserInfo(user,(token)=>{ res.json({success:true,token:token}); });
     });
   }
   /*===============================================*/
@@ -57,7 +72,8 @@ exports.auth = (req,res) => {
     User.findOneAndUpdate({_id:req.user._id},
       {$set:sharedFun.cleanObj(fields)},{new: true}).exec((err,user)=>{
       if(sharedFun.ErrorHandler({res,req,err})){return;}
-      sendUserInfo(req,res,user,true);});
+      sendUserInfo(user,(token)=>{ res.json({success:true,token:token}); });
+    });
   }
   /*===============================================*/
   exports.changePass = (req,res) => {
@@ -70,15 +86,22 @@ exports.auth = (req,res) => {
             User.findOneAndUpdate({_id:req.user._id},
               {$set:{password:item.password}},{new: true}).exec((err,user)=>{
               if(sharedFun.ErrorHandler({res,req,err})){return;}
-              sendUserInfo(req,res,user,true);});
+              sendUserInfo(user,(token)=>{ res.json({success:true,token:token}); });
+            });
           });
         }else{sharedFun.ErrorHandler({res,req,err:'Incorrect Password'});return;}
       });
   }
 /*===============sendUserInfo===================*/
-function sendUserInfo(req,res,user,signRes){let arr=['password', 'Urole'];
+function sendUserInfo(user,cb){
+  let arr=['password', 'Urole'];
   const token = jwt.sign(_.omit(user.toJSON(),arr),config.secret,{  expiresIn:604800 /* 1 week */  });
-    res.json({success:true,token:'JWT '+token});
+  if(cb){cb('JWT '+token);}
+}
+/*====================( delete )===================*/
+exports.delete = deleteFun = (req,cb)=>{
+  if(!req&&!req.params&&!req.params.id){return cb('Invalid Id')}
+  User.DocDelete({_id:req.params.id},cb)
 }
 /*=================================================*/
 exports.requiresAdmin = function(req,res,next) {

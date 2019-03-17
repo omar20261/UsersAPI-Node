@@ -3,7 +3,8 @@ const path = require('path');
 const bodyParser=require('body-parser');
 const cors = require('cors');
 const passport = require('passport');
-const config = require('./config/config');
+const config = require('./app/config');
+const passportManager = require('./app/services/passportManager');
 
 const app = express();
 /*---------------mongoose-----------------*/
@@ -20,15 +21,14 @@ app.use(express.static(path.join(__dirname,'public')));
 /* --- body Parser MW -----*/
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({extended:false}));
+/*-----------------init DB data ----------------------*/
+require('./app/config/init')();
 /*------------passport-------------*/
 app.use(passport.initialize());
 app.use(passport.session());
-/*-----------------init DB data ----------------------*/
-require('./config/init')();
-/*----------------passport--------------------------*/
-require('./config/passport')(passport);
+passportManager.setupStrategy(passport);
 /*----------routes---------*/
-require('./config/routes')(app,passport);
+require('./app/routes')(app);
 /*------ -------*/
 app.get('*',(req,res) => { res.sendFile(path.join(__dirname,'public/index.html')) });
 /*-----------------------------*/
@@ -36,3 +36,4 @@ process.on('uncaughtException',(e)=>{console.log('---uncaughtException----',e); 
 /*---------- app listening  ---------*/
 app.listen(config.port,() => {  console.log('server started on port '+config.port); });
 /*-----------------------------------------------------------------------*/
+module.exports = app;

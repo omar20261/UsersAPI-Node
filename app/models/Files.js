@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const sharedFun = require('../controller/sharedFun');
+const sharedFun = require('../services/sharedFun');
 const Bluebird = require("bluebird");
 const _ = require('lodash');
 const async = require('async');
