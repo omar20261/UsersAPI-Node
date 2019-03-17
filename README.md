@@ -1,6 +1,6 @@
 # Node Server
 
-## Username / Password = Admin
+Username / Password = Admin
 
 ## Features
   - Authentication  
