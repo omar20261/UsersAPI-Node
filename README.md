@@ -1,7 +1,7 @@
 # Node Server
-  Authentication 
-  RESTFUL API Example 
-  Testing 
+  Authentication  
+  RESTFUL API Example  
+  Testing  
   
 # ========= Docker setup =========
 
