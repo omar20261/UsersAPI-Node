@@ -8,7 +8,7 @@ https://www.youtube.com/watch?v=vnDiHcS_jFo&t=6s
 ## Features
   - Authentication  
   - RESTFUL API Example  
-  - Docker setup  
+  - one command setup via Docker   
   - Testing  
 
 # ========= Docker setup =========
