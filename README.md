@@ -1,8 +1,12 @@
 # Node Server
-  Authentication  
-  RESTFUL API Example  
-  Testing  
-  
+
+## Username / Password = Admin
+
+## Features
+  - Authentication  
+  - RESTFUL API Example  
+  - Testing  
+
 # ========= Docker setup =========
 
 ## prerequisite :
