@@ -1,6 +1,16 @@
 # Node Server
-  RESTFUL API Example + Authentication 
-  
+
+Username / Password = Admin
+
+## demo
+https://www.youtube.com/watch?v=vnDiHcS_jFo&t=6s
+
+## Features
+  - Authentication  
+  - RESTFUL API Example  
+  - One command setup via Docker   
+  - Testing  
+
 # ========= Docker setup =========
 
 ## prerequisite :
@@ -27,3 +37,7 @@ note: you need to add sudo at the beginning of your os is linux or mac
   npm start
   
  ## navigate to http://localhost:3500
+
+# ========= Testing =========
+  npm i   
+  npm test
