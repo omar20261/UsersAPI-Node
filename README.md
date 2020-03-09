@@ -9,7 +9,7 @@ https://www.youtube.com/watch?v=vnDiHcS_jFo&t=6s
   - Authentication  
   - RESTFUL API Example  
   - One command setup via Docker   
-  - Testing (mocha & chai, sinon supertest)
+  - Testing (mocha & chai, sinon, supertest)
 
 # ========= Docker setup =========
 
